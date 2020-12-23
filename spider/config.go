@@ -1,10 +1,12 @@
 package spider
 
+//SensitiveInterface add comment
 type SensitiveInterface struct {
-	API string
+	API   string
 	Level int
 }
 
+//Spider add comment
 type Spider struct {
 	//spider
 	Url               string `json:"url"`
@@ -38,6 +40,6 @@ func NewConfig() Spider {
 		//[\"|\'][/]?[a-zA-Z]+[/]+[a-zA-Z]+.*[\"|\'] => "login/abc"
 		//(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|] => http://a.b
 		ResponseMatchRule: `(\"|\')[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|](\"|\')|(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]`,
-		Query:          "site:ooxx.com filetype:txt",
+		Query:             "site:ooxx.com filetype:txt",
 	}
 }

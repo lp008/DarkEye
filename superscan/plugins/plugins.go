@@ -16,7 +16,8 @@ var (
 	checkFuncs    = map[int]func(*Plugins){}
 	preCheckFuncs = map[int]func(*Plugins){}
 	supportPlugin = map[string]string{}
-	GlobalConfig  = Config{
+	//GlobalConfig add comment
+	GlobalConfig = Config{
 		ReverseUrl:      "qvn0kc.ceye.io",
 		ReverseCheckUrl: "http://api.ceye.io/v1/records?token=066f3d242991929c823ac85bb60f4313&type=http&filter=",
 		RateWait: func(r *rate.Limiter) {
@@ -34,6 +35,7 @@ var (
 	}
 )
 
+//PreCheck add comment
 func (plg *Plugins) PreCheck() {
 	//预处理注意：
 	//1、该链上的处理为固定端口，主要为UDP或特殊协议
@@ -49,9 +51,10 @@ func (plg *Plugins) PreCheck() {
 	}
 }
 
+//Check add comment
 func (plg *Plugins) Check() {
 	GlobalConfig.RateWait(GlobalConfig.Pps) //活跃端口发包限制
-	plg.DescCallback(fmt.Sprintf("Crack %s:%s", "*."+plg.TargetIp[len(plg.TargetIp) - 3:], plg.TargetPort))
+	plg.DescCallback(fmt.Sprintf("Crack %s:%s", "*."+plg.TargetIp[len(plg.TargetIp)-3:], plg.TargetPort))
 	if !plg.PortOpened &&
 		common.IsAlive(plg.TargetIp, plg.TargetPort, plg.TimeOut) != common.Alive {
 		return
@@ -106,17 +109,17 @@ func crack(pid string, plg *Plugins, dictUser, dictPass []string, callback func(
 				}
 				pass = strings.Replace(pass, "%user%", username, -1)
 				plg.DescCallback(fmt.Sprintf("Crack %s %s:%s %s/%s",
-					pid,"*."+plg.TargetIp[len(plg.TargetIp) - 3:], plg.TargetPort, username, pass))
+					pid, "*."+plg.TargetIp[len(plg.TargetIp)-3:], plg.TargetPort, username, pass))
 				//限速
 				GlobalConfig.RateWait(GlobalConfig.Pps)
 				ok := callback(plg, username, pass)
 				switch ok {
-				case OKNoauth:
+				case OKNoAuth:
 					fallthrough
 				case OKDone:
 					//密码正确一次退出
 					plg.Lock()
-					if pass == "" || ok == OKNoauth {
+					if pass == "" || ok == OKNoAuth {
 						pass = "空"
 					}
 					plg.Cracked = append(plg.Cracked, Account{Username: username, Password: pass})
@@ -169,6 +172,7 @@ func output(plg *Plugins) {
 	}
 }
 
+//SupportPlugin add comment
 func SupportPlugin() {
 	for _, v := range supportPlugin {
 		color.Green("%v,", v)

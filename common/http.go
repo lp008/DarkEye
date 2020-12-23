@@ -18,8 +18,11 @@ import (
 )
 
 const (
-	Die     = 1
-	Alive   = 2
+	//Die add comment
+	Die = 1
+	//Alive add comment
+	Alive = 2
+	//TimeOut add comment
 	TimeOut = 3
 )
 

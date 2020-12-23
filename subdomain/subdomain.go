@@ -14,7 +14,7 @@ var (
 	ipApiLimit = rate.NewLimiter(rate.Every(1500*time.Millisecond), 40) //burst 40，以后1.5秒分配资源
 )
 
-//todo: add comment
+//Run add comment
 func (s *SubDomain) Run() {
 	queries := strings.Split(s.Queries, ",")
 	s.Dns = make([]DnsInfo, 0)
@@ -42,12 +42,11 @@ func (s *SubDomain) get(query string) {
 	s.ErrChannel <- common.LogBuild("subDomain",
 		fmt.Sprintf("开始收集子域%s", query), common.INFO)
 
-	if ! s.Brute {
+	if !s.Brute {
 		s.getSecurityTrails(query)
 		return
-	} else {
-		s.getBrute(query)
 	}
+	s.getBrute(query)
 }
 
 func (s *SubDomain) try(prefix, query string) {

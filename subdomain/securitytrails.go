@@ -14,7 +14,7 @@ curl "https://api.securitytrails.com/v1/domain/apple.com" \
 */
 
 type subMeta struct {
-	Limit_reached bool `json:"limit_reached"`
+	LimitReached bool `json:"limit_reached"`
 }
 
 type subResult struct {
@@ -44,7 +44,7 @@ func (s *SubDomain) getSecurityTrails(query string) {
 			fmt.Sprintf("收集子域%s处理返回数据失败:%s", query, err.Error()), common.FAULT)
 		return
 	}
-	if res.Meta.Limit_reached {
+	if res.Meta.LimitReached {
 		s.ErrChannel <- common.LogBuild("subDomain.get",
 			fmt.Sprintf("子域%s返回数量%d超过达到SecurityTrails服务器允许上限", query, len(res.Subdomains)), common.FAULT)
 	}
@@ -57,7 +57,7 @@ func (s *SubDomain) getSecurityTrails(query string) {
 	}
 }
 
-func (s *SubDomain) fetchSubDomainResults(req *common.HttpRequest, query string) (*common.HttpResponse) {
+func (s *SubDomain) fetchSubDomainResults(req *common.HttpRequest, query string) *common.HttpResponse {
 	retry := 0
 	for {
 		if common.ShouldStop(&s.Stop) {
